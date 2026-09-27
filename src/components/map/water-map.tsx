@@ -3,7 +3,7 @@ import type { Sensor } from "@/lib/demo-data";
 import { cn } from "@/lib/utils";
 
 const MapboxMap = lazy(() => import("./mapbox-map"));
-const TOKEN = import.meta.env.VITE_LOVABLE_CONNECTOR_MAPBOX_PUBLIC_TOKEN as string | undefined;
+const TOKEN = import.meta.env['VITE_LOVABLE_CONNECTOR_MAPBOX_PUBLIC_TOKEN'] as string | undefined;
 
 /** Uses Mapbox GL JS when a public token is configured; otherwise a schematic fallback map. */
 export function WaterMap({ sensors, className }: { sensors: Sensor[]; className?: string }) {

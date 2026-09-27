@@ -33,7 +33,7 @@ export function AnomalyFeed() {
           <span className={cn("mt-0.5 rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase", sev[a.severity])}>{a.severity}</span>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm">{a.title}</p>
-            <p className="font-mono text-[11px] text-muted-foreground">
+            <p className="font-mono text-[11px] text-muted-foreground" suppressHydrationWarning>
               {a.sensorId} · err {a.error.toFixed(2)} · {ago(a.at)}
             </p>
           </div>

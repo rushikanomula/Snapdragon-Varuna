@@ -54,6 +54,7 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: "varuna.app",
+      skipHydration: true,
       partialize: (s) => ({ backendPref: s.backendPref, horizon: s.horizon }),
     },
   ),

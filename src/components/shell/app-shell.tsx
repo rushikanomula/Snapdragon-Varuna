@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { useNpuStatus } from "@/hooks/use-npu-status";
 import { navItems } from "./nav-items";
+import { useAppStore } from "@/stores/app-store";
 
 const STORAGE_KEY = "varuna.sidebar.collapsed";
 
@@ -66,6 +67,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setCollapsed(localStorage.getItem(STORAGE_KEY) === "1");
+    void useAppStore.persist.rehydrate();
   }, []);
   const toggle = () => {
     setCollapsed((c) => {

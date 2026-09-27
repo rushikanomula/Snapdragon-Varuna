@@ -68,7 +68,7 @@ const ANOMALY_TEMPLATES: Omit<Anomaly, "id" | "at" | "acknowledged">[] = [
 
 let seq = 9013;
 export function randomAnomaly(): Anomaly {
-  const t = ANOMALY_TEMPLATES[Math.floor(Math.random() * ANOMALY_TEMPLATES.length)];
+  const t = ANOMALY_TEMPLATES[Math.floor(Math.random() * ANOMALY_TEMPLATES.length)]!;
   return { ...t, id: `A-${seq++}`, at: Date.now(), acknowledged: false };
 }
 
@@ -107,9 +107,9 @@ export function buildForecast(horizon: 7 | 14 | 30): ForecastPoint[] {
   }
   // stitch last actual to first prediction
   const last = pts.find((p, idx) => pts[idx + 1]?.predicted !== undefined && p.actual !== undefined);
-  if (last) {
+  if (last && last.actual !== undefined) {
     last.predicted = last.actual;
-    last.band = [last.actual!, last.actual!];
+    last.band = [last.actual, last.actual];
   }
   return pts;
 }

@@ -102,8 +102,10 @@ export async function analyzeQuality(input: Reading, backend: Exclude<ActiveBack
   if (session) {
     const ort = await import("onnxruntime-web");
     const tensor = new ort.Tensor("float32", Float32Array.from(keys.map((k) => input[k])), [1, keys.length]);
-    const out = await session.run({ [session.inputNames[0]]: tensor });
-    score = Math.round(Number((out[session.outputNames[0]].data as Float32Array)[0]));
+    const inName = session.inputNames[0] ?? "input";
+    const outName = session.outputNames[0] ?? "output";
+    const out = await session.run({ [inName]: tensor });
+    score = Math.round(Number((out[outName]!.data as Float32Array)[0]));
     mode = "onnx";
   } else {
     const weights: Record<ParamKey, number> = { ph: 1.2, turbidity: 1, do: 1.1, nitrate: 0.9, lead: 1.2, coliform: 1.3 };

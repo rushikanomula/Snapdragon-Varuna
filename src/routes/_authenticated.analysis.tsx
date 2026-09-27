@@ -73,7 +73,7 @@ function Analysis() {
     run();
     const wq = sensors.filter((s) => s.type === "Water Quality");
     Promise.all(wq.map((s) => analyzeQuality(s.reading, backend))).then((rs) =>
-      setHeat(Object.fromEntries(wq.map((s, i) => [s.id, rs[i]]))),
+      setHeat(Object.fromEntries(wq.map((s, i) => [s.id, rs[i]!]))),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [backend]);
