@@ -15,7 +15,8 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedAnalysisRouteImport } from './routes/_authenticated.analysis'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
 import { Route as AuthenticatedForecastRouteImport } from './routes/_authenticated.forecast'
-import { Route as AuthenticatedSensorsRouteImport } from './routes/_authenticated.sensors'
+import { Route as AuthenticatedSensorsIndexRouteImport } from './routes/_authenticated.sensors.index'
+import { Route as AuthenticatedSensorsIdRouteImport } from './routes/_authenticated.sensors.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,9 +47,15 @@ const AuthenticatedForecastRoute = AuthenticatedForecastRouteImport.update({
   path: '/forecast',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedSensorsRoute = AuthenticatedSensorsRouteImport.update({
-  id: '/sensors',
-  path: '/sensors',
+const AuthenticatedSensorsIndexRoute =
+  AuthenticatedSensorsIndexRouteImport.update({
+    id: '/sensors/',
+    path: '/sensors/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedSensorsIdRoute = AuthenticatedSensorsIdRouteImport.update({
+  id: '/sensors/$id',
+  path: '/sensors/$id',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
@@ -58,7 +65,8 @@ export interface FileRoutesByFullPath {
   '/analysis': typeof AuthenticatedAnalysisRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/forecast': typeof AuthenticatedForecastRoute
-  '/sensors': typeof AuthenticatedSensorsRoute
+  '/sensors/$id': typeof AuthenticatedSensorsIdRoute
+  '/sensors/': typeof AuthenticatedSensorsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -66,7 +74,8 @@ export interface FileRoutesByTo {
   '/analysis': typeof AuthenticatedAnalysisRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/forecast': typeof AuthenticatedForecastRoute
-  '/sensors': typeof AuthenticatedSensorsRoute
+  '/sensors/$id': typeof AuthenticatedSensorsIdRoute
+  '/sensors': typeof AuthenticatedSensorsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -76,14 +85,28 @@ export interface FileRoutesById {
   '/_authenticated/analysis': typeof AuthenticatedAnalysisRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/forecast': typeof AuthenticatedForecastRoute
-  '/_authenticated/sensors': typeof AuthenticatedSensorsRoute
+  '/_authenticated/sensors/$id': typeof AuthenticatedSensorsIdRoute
+  '/_authenticated/sensors/': typeof AuthenticatedSensorsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/login' | '/analysis' | '/dashboard' | '/forecast' | '/sensors'
+    | '/'
+    | '/login'
+    | '/analysis'
+    | '/dashboard'
+    | '/forecast'
+    | '/sensors/$id'
+    | '/sensors/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/analysis' | '/dashboard' | '/forecast' | '/sensors'
+  to:
+    | '/'
+    | '/login'
+    | '/analysis'
+    | '/dashboard'
+    | '/forecast'
+    | '/sensors/$id'
+    | '/sensors'
   id:
     | '__root__'
     | '/'
@@ -92,7 +115,8 @@ export interface FileRouteTypes {
     | '/_authenticated/analysis'
     | '/_authenticated/dashboard'
     | '/_authenticated/forecast'
-    | '/_authenticated/sensors'
+    | '/_authenticated/sensors/$id'
+    | '/_authenticated/sensors/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,11 +169,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedForecastRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/sensors': {
-      id: '/_authenticated/sensors'
+    '/_authenticated/sensors/': {
+      id: '/_authenticated/sensors/'
       path: '/sensors'
-      fullPath: '/sensors'
-      preLoaderRoute: typeof AuthenticatedSensorsRouteImport
+      fullPath: '/sensors/'
+      preLoaderRoute: typeof AuthenticatedSensorsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/sensors/$id': {
+      id: '/_authenticated/sensors/$id'
+      path: '/sensors/$id'
+      fullPath: '/sensors/$id'
+      preLoaderRoute: typeof AuthenticatedSensorsIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
   }
@@ -159,14 +190,16 @@ interface AuthenticatedRouteChildren {
   AuthenticatedAnalysisRoute: typeof AuthenticatedAnalysisRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedForecastRoute: typeof AuthenticatedForecastRoute
-  AuthenticatedSensorsRoute: typeof AuthenticatedSensorsRoute
+  AuthenticatedSensorsIdRoute: typeof AuthenticatedSensorsIdRoute
+  AuthenticatedSensorsIndexRoute: typeof AuthenticatedSensorsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAnalysisRoute: AuthenticatedAnalysisRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedForecastRoute: AuthenticatedForecastRoute,
-  AuthenticatedSensorsRoute: AuthenticatedSensorsRoute,
+  AuthenticatedSensorsIdRoute: AuthenticatedSensorsIdRoute,
+  AuthenticatedSensorsIndexRoute: AuthenticatedSensorsIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

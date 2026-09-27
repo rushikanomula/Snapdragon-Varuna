@@ -22,7 +22,7 @@ Phased plan for building Varuna, the AI-powered water-intelligence web app (dark
 - [x] Forecast `/forecast` — 7/14/30 selector, confidence bands, thresholds, risk timeline, table (risk map + exports pending)
 - [ ] Anomalies `/anomalies` — live monitoring, severity timeline, investigation drawer
 - [ ] Advisory `/advisory` — streaming chat, context sidebar, recommendation cards
-- [ ] Sensors `/sensors` + `/sensors/:id` — grid, add/connection flows, detail charts
+- [x] Sensors `/sensors` + `/sensors/:id` — grid/list/map, add modal (MQTT test), detail charts, calibration, bulk export/delete, outlier tagging
 - [ ] Report Center `/report-center` — builder, schedules, share links
 - [ ] Models `/models` — device status, catalog, benchmarks
 - [ ] Settings `/settings`, Docs `/docs`
