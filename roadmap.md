@@ -13,13 +13,13 @@ Phased plan for building Varuna, the AI-powered water-intelligence web app (dark
 - [ ] 404 "Lost at Sea" page
 
 ## Phase 3 — Authenticated shell
-- [ ] Top bar + collapsible sidebar (240px/64px, teal active route, state persisted)
+- [x] Top bar + collapsible sidebar (240px/64px, teal active route, state persisted)
 - [ ] Onboarding `/onboarding` — device/NPU detection, model download, data source choice, summary
 
 ## Phase 4 — Core feature screens
-- [ ] Dashboard `/dashboard` — KPI cards, map, anomaly feed, trend chart, NPU widget, alerts
-- [ ] Quality Analysis `/analysis` — Live/Upload/Historical tabs, score gauge, heatmap, exports
-- [ ] Forecast `/forecast` — 7/14/30-day selector, confidence bands, risk map/timeline, exports
+- [x] Dashboard `/dashboard` — KPI cards, map, anomaly feed, trend chart, NPU widget, alerts
+- [x] Quality Analysis `/analysis` — gauge, parameter cards, threshold table, heatmap (Upload/Historical tabs + exports pending)
+- [x] Forecast `/forecast` — 7/14/30 selector, confidence bands, thresholds, risk timeline, table (risk map + exports pending)
 - [ ] Anomalies `/anomalies` — live monitoring, severity timeline, investigation drawer
 - [ ] Advisory `/advisory` — streaming chat, context sidebar, recommendation cards
 - [ ] Sensors `/sensors` + `/sensors/:id` — grid, add/connection flows, detail charts
@@ -31,3 +31,10 @@ Phased plan for building Varuna, the AI-powered water-intelligence web app (dark
 - [ ] Enable Lovable Cloud (auth, database, storage, functions)
 - [ ] Schema: users/roles (RBAC), organizations, sensors, readings, anomalies, forecasts, reports
 - [ ] AI gateway wiring for advisory/explanations
+
+## State & on-device AI
+- [x] Zustand store + TanStack Query data layer (demo data)
+- [x] ONNX Runtime Web + WebNN detection with GPU/CPU fallback
+- [ ] Host real quantized ONNX models (blocked: model files from Qualcomm AI Hub)
+- [ ] Mapbox basemap (blocked: user to connect Mapbox)
+- [ ] Switch queries to Cloud (blocked: enable Lovable Cloud)
