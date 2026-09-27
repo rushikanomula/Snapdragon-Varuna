@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Area, CartesianGrid, ComposedChart, Legend, Line, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Panel } from "@/components/panel";
 import { forecastQuery } from "@/lib/queries";
@@ -26,7 +26,7 @@ const axis = { fontSize: 10, fill: "var(--muted-foreground)" };
 function Forecast() {
   const horizon = useAppStore((s) => s.horizon);
   const setHorizon = useAppStore((s) => s.setHorizon);
-  const { data = [], isFetching } = useQuery({ ...forecastQuery(horizon), placeholderData: (p) => p });
+  const { data, isFetching } = useSuspenseQuery(forecastQuery(horizon));
   const future = data.filter((d) => d.actual === undefined);
   const peak = future.reduce((m, d) => Math.max(m, d.predicted ?? 0), 0);
   const highDays = future.filter((d) => d.risk === "high").length;
