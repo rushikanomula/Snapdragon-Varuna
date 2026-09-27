@@ -40,7 +40,7 @@ function NavList({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: (
 
 function NpuPill() {
   const { mode, latency } = useNpuStatus();
-  const active = mode === "npu";
+  const active = mode === "npu" || mode === "gpu";
   return (
     <div
       className={cn(
@@ -53,7 +53,7 @@ function NpuPill() {
         <span className={cn("relative inline-flex h-2 w-2 rounded-full", active ? "bg-primary" : "bg-muted-foreground")} />
       </span>
       <Cpu className="hidden h-3.5 w-3.5 sm:block" />
-      {mode === "detecting" ? "Detecting…" : active ? <>NPU Active <span className="text-foreground">{latency}ms</span></> : "CPU Mode"}
+      {mode === "detecting" ? "Detecting…" : active ? <>{mode.toUpperCase()} Active {latency !== null && <span className="text-foreground">{latency}ms</span>}</> : <>CPU Mode {latency !== null && <span className="text-foreground">{latency}ms</span>}</>}
     </div>
   );
 }
