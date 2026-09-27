@@ -45,7 +45,7 @@ function Forecast() {
             </button>
           ))}
         </div>
-        {isFetching && <span className="text-xs text-muted-foreground">Running LSTM…</span>}
+        <span className="text-xs text-muted-foreground" suppressHydrationWarning>{isFetching ? "Running LSTM…" : ""}</span>
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
