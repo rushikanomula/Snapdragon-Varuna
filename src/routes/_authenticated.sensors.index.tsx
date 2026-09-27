@@ -78,7 +78,7 @@ function SensorsPage() {
           </p>
         </div>
         <Select value={role} onValueChange={(v) => { setRole(v as Role); setSelected([]); }}>
-          <SelectTrigger className="h-9 w-48 text-xs" aria-label="Preview as role"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="h-9 w-60 text-xs" aria-label="Preview as role"><SelectValue /></SelectTrigger>
           <SelectContent>
             {(Object.keys(ROLE_LABEL) as Role[]).map((r) => <SelectItem key={r} value={r}>Preview as: {ROLE_LABEL[r]}</SelectItem>)}
           </SelectContent>

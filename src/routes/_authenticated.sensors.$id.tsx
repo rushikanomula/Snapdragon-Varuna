@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Scatter, ComposedChart, Tooltip, XAxis, YAxis } from "recharts";
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, ComposedChart, Tooltip, XAxis, YAxis } from "recharts";
 import { AlertTriangle, ChevronLeft, Save, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -170,8 +170,9 @@ function SensorDetail() {
               <XAxis dataKey="t" type="number" domain={["dataMin", "dataMax"]} tick={axis} tickFormatter={fmt} minTickGap={50} />
               <YAxis tick={axis} width={44} domain={["auto", "auto"]} />
               <Tooltip contentStyle={tip} labelFormatter={fmt} />
-              <Line dataKey="value" name={PARAMS[param].label} stroke="var(--chart-2)" dot={false} strokeWidth={1.5} isAnimationActive={false} />
-              <Scatter data={outliers} dataKey="value" name="Outlier" fill="var(--destructive)" />
+              <Line dataKey="value" name={PARAMS[param].label} stroke="var(--chart-2)" strokeWidth={1.5} isAnimationActive={false}
+                dot={(p: { cx?: number; cy?: number; payload?: TelemetryPoint; key?: string }) =>
+                  p.payload?.outlier ? <circle key={p.key} cx={p.cx} cy={p.cy} r={4} fill="var(--destructive)" /> : <g key={p.key} />} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
