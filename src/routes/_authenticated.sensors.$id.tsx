@@ -69,6 +69,12 @@ function SensorDetail() {
     return f < t ? buildHistory(sensor, param, f, t) : [];
   }, [sensor, param, from, to]);
   const outliers = history.filter((p) => p.outlier);
+  const yDomain = useMemo<[number, number]>(() => {
+    if (!history.length) return [0, 1];
+    const v = history.map((p) => p.value);
+    const lo = Math.min(...v), hi = Math.max(...v), pad = (hi - lo) * 0.08 || 1;
+    return [+(lo - pad).toPrecision(3), +(hi + pad).toPrecision(3)];
+  }, [history]);
 
   if (!sensor) {
     return (
@@ -168,7 +174,7 @@ function SensorDetail() {
             <ComposedChart data={history}>
               <CartesianGrid stroke="var(--border)" vertical={false} />
               <XAxis dataKey="t" type="number" domain={["dataMin", "dataMax"]} tick={axis} tickFormatter={fmt} minTickGap={50} />
-              <YAxis tick={axis} width={44} domain={["auto", "auto"]} />
+              <YAxis tick={axis} width={44} domain={yDomain} allowDataOverflow />
               <Tooltip contentStyle={tip} labelFormatter={fmt} />
               <Line dataKey="value" name={PARAMS[param].label} stroke="var(--chart-2)" strokeWidth={1.5} isAnimationActive={false}
                 dot={(p: { cx?: number; cy?: number; payload?: TelemetryPoint; key?: string }) =>
