@@ -44,7 +44,7 @@ export const useAppStore = create<AppState>()(
       horizon: 14,
       setHorizon: (horizon) => set({ horizon }),
 
-      analysisInput: { ph: 8.9, turbidity: 4.2, do: 6.4, nitrate: 22, lead: 0.004, coliform: 0 },
+      analysisInput: { ph: 8.9, turbidity: 6.1, do: 5.3, nitrate: 22, lead: 0.004, coliform: 0 },
       setAnalysisParam: (k, v) => set((s) => ({ analysisInput: { ...s.analysisInput, [k]: v } })),
 
       anomalies: DEMO_ANOMALIES,
