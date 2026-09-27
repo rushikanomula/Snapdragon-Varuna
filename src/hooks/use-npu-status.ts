@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useAppStore } from "@/stores/app-store";
+import { detectBackend } from "@/lib/ai/engine";
 
-export type NpuMode = "detecting" | "npu" | "cpu";
-
-/** Detects WebNN availability and simulates live inference latency. */
+/** Runs hardware detection once per backend preference and exposes the runtime status. */
 export function useNpuStatus() {
-  const [mode, setMode] = useState<NpuMode>("detecting");
-  const [latency, setLatency] = useState(12);
+  const pref = useAppStore((s) => s.backendPref);
+  const setRuntime = useAppStore((s) => s.setRuntime);
+  const mode = useAppStore((s) => s.activeBackend);
+  const latency = useAppStore((s) => s.lastLatencyMs);
 
   useEffect(() => {
-    const hasWebNN = typeof navigator !== "undefined" && "ml" in navigator;
-    // Demo: treat all devices as NPU-capable unless explicitly unsupported later.
-    setMode(hasWebNN ? "npu" : "npu");
-    const id = window.setInterval(() => {
-      setLatency(Math.round(10 + Math.random() * 5));
-    }, 2000);
-    return () => window.clearInterval(id);
-  }, []);
+    let cancelled = false;
+    detectBackend(pref).then(({ backend, webnn }) => {
+      if (!cancelled) setRuntime({ activeBackend: backend, webnn });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [pref, setRuntime]);
 
   return { mode, latency };
 }
